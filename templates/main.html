@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main</title>
+    <link rel="stylesheet" href="static/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <h2 class="title">Interactive 3D Plot:</h2>
+    <div class="sButton">
+        <button class="submit" onclick="location.href='/submit'">View Interactive Plot</button>
+    </div>
+    <div id="plot-container">
+        {{ plot_html|safe }}
+    </div>
+
+
+    <canvas id="particles"></canvas>
+    <script src="static/particle.js"></script>
+</body>
+
+</html>
