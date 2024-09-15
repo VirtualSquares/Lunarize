@@ -6,6 +6,8 @@ import plotly.io as pio
 
 app = Flask(__name__)
 
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -28,6 +30,7 @@ def downsample_data(latitudes, longitudes, heights, factor=10):
     return downsampled_latitudes, downsampled_longitudes, downsampled_heights
 
 def generate_plot():
+
     latitudes_df = pd.read_csv('data/latitude.csv', header=None)
     longitudes_df = pd.read_csv('data/longitude.csv', header=None)
     heights_df = pd.read_csv('data/height.csv', header=None)
@@ -40,16 +43,32 @@ def generate_plot():
 
     longitude_grid, latitude_grid = np.meshgrid(longitudes[0], latitudes[:, 0])
 
-    surface = go.Surface(z=heights, x=longitude_grid, y=latitude_grid, colorscale='Viridis', showscale=False)
+ 
+    texture_colorscale = [
+        [0, 'rgb(255,255,255)'],  
+        [0.5, 'rgb(165,165,165)'],  
+        [1, 'rgb(150,150,150)']  
+    ]
+
+    surface = go.Surface(
+        z=heights,
+        x=longitude_grid,
+        y=latitude_grid,
+        colorscale=texture_colorscale,
+        showscale=False,
+        surfacecolor=np.zeros_like(heights)  
+    )
+
     layout = go.Layout(
-        title='3D Visualization of Shackleton Terrain',
         scene=dict(
             xaxis_title='Longitude',
             yaxis_title='Latitude',
             zaxis_title='Elevation'
         ),
+ 
         autosize=True
     )
+
     fig = go.Figure(data=[surface], layout=layout)
 
     plot_html = pio.to_html(fig, full_html=False)
